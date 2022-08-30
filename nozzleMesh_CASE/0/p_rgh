@@ -1,0 +1,60 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2112                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      p_rgh;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -1 -2 0 0 0 0]; //kg m s K mol A cp
+
+internalField   uniform 0; //set initial pressure field
+
+boundaryField
+{
+    inlet
+    {
+        type            fixedFluxPressure; //like zeroGradient but takes hydrostatic pressure into account
+        value           uniform 0;
+    }
+
+    outlet
+    {
+        type            fixedValue; //need to understand this one
+        value           uniform 0;
+    }
+
+    top
+    {
+        type            fixedFluxPressure;
+        value           uniform 0;
+    }
+
+    sides
+    {
+        type            fixedFluxPressure;
+        value           uniform 0;
+    }
+
+    extruderWall
+    {
+	type		fixedFluxPressure;
+	value		uniform 0;
+    }
+
+    defaultFaces
+    {
+        type            empty; //don't solve equations in this direction
+    }
+}
+
+
+// ************************************************************************* //

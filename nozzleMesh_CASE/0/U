@@ -1,0 +1,60 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2112                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0]; //kg m s K mol A cp
+
+internalField   uniform (0 0 0); //Initially set velocity field (0 0 0)
+
+boundaryField //one for each boundary defined in blockMeshDict
+{
+    inlet
+    {
+        type            fixedValue;
+	    value		    uniform (0 0 -0.05);
+    }
+
+    outlet
+    {
+        
+        type            pressureInletOutletVelocity; //don't yet understand, however good with interface to atmosphere
+        value           uniform (0 0 0);
+        
+        //type            noSlip; //use for extrusion on plate
+    }
+
+    top
+    {
+        type            zeroGradient; //zeroGradient
+    }
+
+    sides
+    {
+        type            zeroGradient; //zeroGradient
+    }
+
+    extruderWall
+    {
+        type            noSlip;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+//inlet skal have "type .. fixedValue" -n "value .. uniform (x y z)"
+// ************************************************************************* //

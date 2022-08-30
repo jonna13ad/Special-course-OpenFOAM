@@ -1,7 +1,7 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  v2112                                 |
+|  \\    /   O peration     | Version:  2112                                  |
 |   \\  /    A nd           | Website:  www.openfoam.com                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
@@ -9,50 +9,42 @@ FoamFile
 {
     version     2.0;
     format      ascii;
+    arch        "LSB;label=32;scalar=64";
     class       volScalarField;
-    object      p_rgh;
+    location    "0";
+    object      alpha.water;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-dimensions      [1 -1 -2 0 0 0 0]; //kg m s K mol A cp
+dimensions      [0 0 0 0 0 0 0];
 
-internalField   uniform 0; //set initial pressure field
+internalField   uniform 0;
 
 boundaryField
 {
-    inlet
+    substrate
     {
-        type            fixedFluxPressure; //like zeroGradient but takes hydrostatic pressure into account
-        value           uniform 0;
+        type            zeroGradient;
     }
-
     outlet
     {
-        type            fixedValue; //need to understand this one
+        type            inletOutlet;
+        inletValue      uniform 0;
         value           uniform 0;
     }
-
-    top
+    inlet
     {
-        type            fixedFluxPressure;
-        value           uniform 0;
+        type            fixedValue;
+        value           uniform 1;
     }
-
-    sides
-    {
-        type            fixedFluxPressure;
-        value           uniform 0;
-    }
-
     extruderWall
     {
-	type		fixedFluxPressure;
-	value		uniform 0;
+        type            zeroGradient;
     }
-
-    defaultFaces
+    overset
     {
-        type            empty; //don't solve equations in this direction
+        type            overset;
+        value           uniform 0;
     }
 }
 

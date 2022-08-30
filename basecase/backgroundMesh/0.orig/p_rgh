@@ -1,7 +1,7 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  v2112                                 |
+|  \\    /   O peration     | Version:  v2012                                 |
 |   \\  /    A nd           | Website:  www.openfoam.com                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
@@ -9,29 +9,45 @@ FoamFile
 {
     version     2.0;
     format      ascii;
-    class       dictionary;
-    object      setFieldsDict;
+    class       volScalarField;
+    object      p_rgh;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-defaultFieldValues
-(
-    volScalarFieldValue alpha.sika 0
-);
+dimensions      [1 -1 -2 0 0 0 0];
 
-regions
-(
-    cylinderToCell
+internalField   uniform 0;
+
+boundaryField
+{   
+    //overset mesh
+    inlet
     {
-        p1          (0 0 0.012);
-        p2          (0 0 0.040);
-        radius      0.0035;
-        fieldValues
-        (
-            volScalarFieldValue alpha.sika 1
-        );
+        type            fixedFluxPressure;
     }
-);
 
+    extruderWall
+    {
+        type            fixedFluxPressure;
+    }
+
+    overset
+    {
+        type            overset;
+    }
+
+    //background mesh
+    outlet
+    {
+        type			fixedValue;
+		value			uniform 0;
+    }
+
+    substrate
+    {
+        type            fixedFluxPressure;
+    }
+    
+}
 
 // ************************************************************************* //

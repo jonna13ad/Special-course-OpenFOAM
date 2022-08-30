@@ -1,0 +1,12 @@
+connect to cluster:
+ssh s194490@login1.gbar.dtu.dk
+linuxsh
+cd ../../../../work3/s194490
+go to case to run
+
+filezilla:
+Host: transfer.gbar.dtu.dk
+port: 22
+
+cluster commands:
+bsub < *command*

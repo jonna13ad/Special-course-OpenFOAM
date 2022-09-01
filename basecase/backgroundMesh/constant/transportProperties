@@ -21,10 +21,10 @@ water
     transportModel  HerschelBulkley; //define fluid model
     HerschelBulkleyCoeffs
     {
-        nu0      [ 0 2 -1 0 0 0 0 ] 0.48995; 
-        tau0     [ 0 2 -2 0 0 0 0 ] 0.04839; // 100/rho
+        nu0      [ 0 2 -1 0 0 0 0 ] 0.48995; // tau0 / 0.1 + k
+        tau0     [ 0 2 -2 0 0 0 0 ] 0.04839; // 60/rho
         k        [ 0 2 -1 0 0 0 0 ] 0.00605; // 7.5/rho
-        n        [ 0 0  0 0 0 0 0 ] 0.4;          //n=1 gives Bingham plastic special case of HerschelBulkley
+        n        [ 0 0  0 0 0 0 0 ] 0.4;     //n=1 gives Bingham plastic special case of HerschelBulkley
     } 
     rho         1240;
 }

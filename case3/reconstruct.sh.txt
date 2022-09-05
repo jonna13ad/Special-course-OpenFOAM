@@ -1,0 +1,30 @@
+#!/bin/sh 
+
+#BSUB -J reconstruct
+
+#BSUB -n 1 
+
+#BSUB -W 8:00 
+
+#BSUB -R "rusage[mem=2GB]"
+
+#BSUB -M 3GB
+
+
+#BSUB -o Output_%J.out 
+#BSUB -e Error_%J.err 
+
+
+module load OpenFoam/v2012/gcc-9.3.1-binutils-2.36.1-openmpi-4.1.1
+
+
+
+
+reconstructPar
+ret=$?
+
+if [ $ret -eq 0 ] ; then
+      for i in processor* ; do rm -rf $i & done
+      wait 
+fi
+exit $ret

@@ -1,0 +1,16 @@
+run commands in oversetMesh:
+blockMesh
+
+run commands in backgroundMesh:
+blockMesh
+mergeMeshes . ../oversetMesh -overwrite
+cp -r 0.orig 0
+topoSet -dict system/topoSetDict_zones
+setFields
+overInterDyMFoam
+
+Notes:
+air modeled as Newtonian
+sika modeled as HerschelBulkley
+
+nozzle speed = 20mm/s as opposed to 18.33 from previous simulations

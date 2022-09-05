@@ -1,0 +1,90 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2112                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+scale   0.001; //1 = m, 0.001 = mm etc.
+
+vertices //points for constructing mesh
+(
+	// vertices for inner 3 mm mesh
+	(45 10 -2.8)		//0
+	(-10 10 -2.8)		//1
+	(-10 -10 -2.8)		//2
+	(45 -10 -2.8)		//3
+
+	(45 10 18)		//4
+	(-10 10 18)		//5
+	(-10 -10 18)		//6
+	(45 -10 18)		//7
+
+	(45 10 44)		//8
+	(-10 10 44)		//9
+	(-10 -10 44)		//10
+	(45 -10 44)		//11
+);
+
+blocks //create mesh blocks from vertices
+(
+	hex (0 1 2 3 4 5 6 7) (221 81 83) simpleGrading (1 1 1)		//bottom part (fine)
+	hex (4 5 6 7 8 9 10 11) (221 81 35) simpleGrading (1 1 1)	//top part (coarse)
+);
+
+edges //define custom edge types
+(
+    
+);
+
+boundary //define patches, walls, empty etc.
+(
+    // right hand rule, thumb points into domain
+	
+	substrate
+	{
+		type wall;
+		faces
+		(
+			(0 1 2 3)
+		);
+	}
+
+	outlet
+	{
+		type patch;
+		faces
+		(
+			(0 4 5 1)
+			(4 8 9 5)
+
+			(1 5 6 2)
+			(5 9 10 6)
+
+			(2 6 7 3)
+			(6 10 11 7)
+
+			(3 7 4 0)
+			(7 11 8 4)
+
+			(11 10 9 8) //top
+		);
+	}
+	
+);
+
+mergePatchPairs
+(
+);
+
+
+// ************************************************************************* //

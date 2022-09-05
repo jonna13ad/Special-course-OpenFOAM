@@ -1,0 +1,42 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2112                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      transportProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+phases          (water air); //define phase names with space inbetween
+
+water
+{
+    transportModel  HerschelBulkley; //define fluid model
+    HerschelBulkleyCoeffs
+    {
+        nu0      [ 0 2 -1 0 0 0 0 ] 0.48995; // tau0 / 0.1 + k
+        tau0     [ 0 2 -2 0 0 0 0 ] 0.04839; // 60/rho
+        k        [ 0 2 -1 0 0 0 0 ] 0.00605; // 7.5/rho
+        n        [ 0 0  0 0 0 0 0 ] 0.4;     //n=1 gives Bingham plastic special case of HerschelBulkley
+    } 
+    rho         1240;
+}
+
+air
+{
+    transportModel  Newtonian; //define fluid model
+    nu              1; //define kinematic viscosity, try 1 with 0.01 for rho
+    rho             0.01; //define density kg/m3
+}
+
+sigma            0.05; //surface tension between phases
+
+
+// ************************************************************************* //

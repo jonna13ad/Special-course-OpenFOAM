@@ -1,0 +1,29 @@
+#!/bin/sh 
+
+#BSUB -J case_1
+#BSUB -n 24 
+
+#BSUB -R "span[hosts=1]"
+
+#BSUB -W 72:00 
+
+#BSUB -R "rusage[mem=3GB]"
+
+#BSUB -M 4GB
+
+#BSUB -u s194490@student.dtu.dk 
+
+#BSUB -B 
+
+#BSUB -N 
+
+#BSUB -o Output_%J.out 
+#BSUB -e Error_%J.err 
+
+
+module load OpenFoam/v2012/gcc-9.3.1-binutils-2.36.1-openmpi-4.1.1
+
+decomposePar
+
+mpirun -np 24 overInterDyMFoam -parallel > Output.log
+

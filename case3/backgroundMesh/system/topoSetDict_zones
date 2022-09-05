@@ -1,0 +1,52 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      topoSetDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+actions
+(
+    {
+        name    c0; //select background mesh
+        type    cellSet;
+        action  new;
+        source  regionsToCell;
+        insidePoints ((0.04 0 0.005)); //point must be in only background mesh, selects entire backgorund
+    }
+
+    {
+        name    c1; //copy c0 into c1
+        type    cellSet;
+        action  new;
+        source  cellToCell;
+        set     c0;
+    }
+
+    {
+        name    c1; //invert the selection of the backgorund, which is the overset
+        type    cellSet;
+        action  invert;
+    }
+	{
+        name    oversetZone; //use c1 to create an oversetZone
+        type    cellZoneSet;
+        action  new;
+        source  setToCellZone;
+        sourceInfo
+        {
+            set c1;
+        }
+    }
+);
+
+// ************************************************************************* //
